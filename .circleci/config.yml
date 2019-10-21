@@ -2,7 +2,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: node:12
+      - image: circleci/node
 
     steps:
       - checkout
@@ -10,5 +10,5 @@ jobs:
       - run: npm ci
     
       - run: npm test
-      
+
       - run: npm run build
