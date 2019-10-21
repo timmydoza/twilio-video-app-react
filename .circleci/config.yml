@@ -2,15 +2,22 @@ version: 2
 jobs:
   build:
     docker:
-      - image: debian:stretch
+      - image: node:12
 
     steps:
       - checkout
-
-      - run:
-          name: Greeting
-          command: echo Hello, world.
-
-      - run:
-          name: Print the Current Time
-          command: date
+      
+      - restore_cache:
+        keys:
+          - v1-dependencies-{{ checksum "package-lock.json" }}
+          - v1-dependencies-
+      
+      - run: npm install
+   
+      - save_cache:
+        paths:
+          - node_modules
+        key: v1-dependencies-{{ checksum "package-lock.json" }}
+    
+      - run: npm test
+      - run: npm build
