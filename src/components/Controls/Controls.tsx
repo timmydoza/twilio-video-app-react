@@ -3,6 +3,7 @@ import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import clsx from 'clsx';
 
 import EndCallButton from './EndCallButton/EndCallButton';
+import FlipCameraButton from './FlipCameraButton/FlipCameraButton';
 import ToggleAudioButton from './ToggleAudioButton/ToggleAudioButton';
 import ToggleVideoButton from './ToggleVideoButton/ToggleVideoButton';
 import ToggleScreenShareButton from './ToogleScreenShareButton/ToggleScreenShareButton';
@@ -47,6 +48,7 @@ export default function Controls() {
     <div className={clsx(classes.container, { showControls })}>
       <ToggleAudioButton disabled={isReconnecting} />
       <ToggleVideoButton disabled={isReconnecting} />
+      <FlipCameraButton />
       {roomState !== 'disconnected' && (
         <>
           <ToggleScreenShareButton disabled={isReconnecting} />
