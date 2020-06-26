@@ -14,7 +14,6 @@ import { useParams } from 'react-router-dom';
 import useRoomState from '../../hooks/useRoomState/useRoomState';
 import useVideoContext from '../../hooks/useVideoContext/useVideoContext';
 import { Typography } from '@material-ui/core';
-import FlipCameraButton from './FlipCameraButton/FlipCameraButton';
 import LocalAudioLevelIndicator from './DeviceSelector/LocalAudioLevelIndicator/LocalAudioLevelIndicator';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -134,7 +133,6 @@ export default function MenuBar() {
           <h3>{roomName}</h3>
         )}
         <div className={classes.rightButtonContainer}>
-          <FlipCameraButton />
           <LocalAudioLevelIndicator />
           <ToggleFullscreenButton />
           <Menu />
