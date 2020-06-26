@@ -49,12 +49,7 @@ export default function Controls() {
       <ToggleAudioButton disabled={isReconnecting} />
       <ToggleVideoButton disabled={isReconnecting} />
       <FlipCameraButton />
-      {roomState !== 'disconnected' && (
-        <>
-          <ToggleScreenShareButton disabled={isReconnecting} />
-          <EndCallButton />
-        </>
-      )}
+      {roomState !== 'disconnected' && <EndCallButton />}
     </div>
   );
 }
