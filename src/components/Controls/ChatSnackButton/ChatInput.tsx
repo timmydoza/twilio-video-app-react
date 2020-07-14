@@ -9,8 +9,10 @@ export default function ChatInput({ onSend }: { onSend: any }) {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    onSend(value);
-    setValue('');
+    if (value) {
+      onSend(value);
+      setValue('');
+    }
   };
 
   return (
