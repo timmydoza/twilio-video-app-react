@@ -11,6 +11,7 @@ import ErrorDialog from './components/ErrorDialog/ErrorDialog';
 import generateConnectionOptions from './utils/generateConnectionOptions/generateConnectionOptions';
 import LoginPage from './components/LoginPage/LoginPage';
 import PrivateRoute from './components/PrivateRoute/PrivateRoute';
+import { SnackbarProvider } from 'notistack';
 import theme from './theme';
 import './types';
 import { VideoProvider } from './components/VideoProvider';
@@ -33,22 +34,33 @@ const VideoApp = () => {
 ReactDOM.render(
   <MuiThemeProvider theme={theme}>
     <CssBaseline />
-    <Router>
-      <AppStateProvider>
-        <Switch>
-          <PrivateRoute exact path="/">
-            <VideoApp />
-          </PrivateRoute>
-          <PrivateRoute path="/room/:URLRoomName">
-            <VideoApp />
-          </PrivateRoute>
-          <Route path="/login">
-            <LoginPage />
-          </Route>
-          <Redirect to="/" />
-        </Switch>
-      </AppStateProvider>
-    </Router>
+    <SnackbarProvider
+      maxSnack={12}
+      anchorOrigin={{
+        vertical: 'bottom',
+        horizontal: 'right',
+      }}
+      dense
+      autoHideDuration={8000}
+      variant="info"
+    >
+      <Router>
+        <AppStateProvider>
+          <Switch>
+            <PrivateRoute exact path="/">
+              <VideoApp />
+            </PrivateRoute>
+            <PrivateRoute path="/room/:URLRoomName">
+              <VideoApp />
+            </PrivateRoute>
+            <Route path="/login">
+              <LoginPage />
+            </Route>
+            <Redirect to="/" />
+          </Switch>
+        </AppStateProvider>
+      </Router>
+    </SnackbarProvider>
   </MuiThemeProvider>,
   document.getElementById('root')
 );

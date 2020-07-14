@@ -1,7 +1,7 @@
 import { Callback } from '../../../types';
 import EventEmitter from 'events';
 import { isMobile } from '../../../utils';
-import Video, { ConnectOptions, LocalTrack, Room } from 'twilio-video';
+import Video, { ConnectOptions, LocalTrack, Room, LocalDataTrack } from 'twilio-video';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 // @ts-ignore
@@ -22,7 +22,7 @@ export default function useRoom(localTracks: LocalTrack[], onError: Callback, op
   const connect = useCallback(
     token => {
       setIsConnecting(true);
-      return Video.connect(token, { ...options, tracks: [] }).then(
+      return Video.connect(token, { ...options, tracks: [new LocalDataTrack()] }).then(
         newRoom => {
           setRoom(newRoom);
           const disconnect = () => newRoom.disconnect();

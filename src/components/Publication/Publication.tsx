@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import useTrack from '../../hooks/useTrack/useTrack';
 import AudioTrack from '../AudioTrack/AudioTrack';
 import VideoTrack from '../VideoTrack/VideoTrack';
@@ -10,17 +10,32 @@ import {
   Participant,
   RemoteTrackPublication,
   Track,
+  DataTrack,
 } from 'twilio-video';
+import { useSnackbar } from 'notistack';
 
 interface PublicationProps {
   publication: LocalTrackPublication | RemoteTrackPublication;
   participant: Participant;
   isLocal: boolean;
-  disableAudio?: boolean;
+  videoOnly?: boolean;
   videoPriority?: Track.Priority | null;
 }
 
-export default function Publication({ publication, isLocal, disableAudio, videoPriority }: PublicationProps) {
+function IDataTrack({ track }: { track: DataTrack }) {
+  const { enqueueSnackbar } = useSnackbar();
+
+  useEffect(() => {
+    const handleMessage = (message: string) => enqueueSnackbar(message);
+    track.on('message', handleMessage);
+    return () => {
+      track.off('message', handleMessage);
+    };
+  }, [track, enqueueSnackbar]);
+  return null;
+}
+
+export default function Publication({ publication, isLocal, videoPriority, videoOnly }: PublicationProps) {
   const track = useTrack(publication);
 
   if (!track) return null;
@@ -35,7 +50,9 @@ export default function Publication({ publication, isLocal, disableAudio, videoP
         />
       );
     case 'audio':
-      return disableAudio ? null : <AudioTrack track={track as IAudioTrack} />;
+      return videoOnly ? null : <AudioTrack track={track as IAudioTrack} />;
+    case 'data':
+      return videoOnly ? null : <IDataTrack track={track} />;
     default:
       return null;
   }
