@@ -3,7 +3,6 @@ import { TextField, Button, FormControl } from '@material-ui/core';
 
 export default function ChatInput({ onSend }: { onSend: any }) {
   const [value, setValue] = useState('');
-  const inputRef = useRef<HTMLDivElement>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => setValue(e.target.value);
 
@@ -19,7 +18,7 @@ export default function ChatInput({ onSend }: { onSend: any }) {
     <form style={{ display: 'flex' }} onSubmit={handleSubmit}>
       <FormControl>
         <label>Say something:</label>
-        <TextField value={value} autoFocus={true} ref={inputRef} onChange={handleChange} />
+        <TextField value={value} autoFocus={true} onChange={handleChange} />
       </FormControl>
       <Button type="submit">Send</Button>
     </form>

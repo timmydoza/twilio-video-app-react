@@ -15,9 +15,6 @@ const useStyles = makeStyles((theme: Theme) =>
     fab: {
       margin: theme.spacing(1),
     },
-    container: {
-      display: 'flex',
-    },
   })
 );
 
