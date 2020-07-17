@@ -6,7 +6,7 @@ import useVideoContext from '../../hooks/useVideoContext/useVideoContext';
 
 interface ParticipantTracksProps {
   participant: Participant;
-  disableAudio?: boolean;
+  videoOnly?: boolean;
   enableScreenShare?: boolean;
   videoPriority?: Track.Priority | null;
 }
@@ -21,7 +21,7 @@ interface ParticipantTracksProps {
 
 export default function ParticipantTracks({
   participant,
-  disableAudio,
+  videoOnly,
   enableScreenShare,
   videoPriority,
 }: ParticipantTracksProps) {
@@ -45,7 +45,7 @@ export default function ParticipantTracks({
           publication={publication}
           participant={participant}
           isLocal={isLocal}
-          disableAudio={disableAudio}
+          videoOnly={videoOnly}
           videoPriority={videoPriority}
         />
       ))}

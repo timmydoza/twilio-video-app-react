@@ -16,11 +16,11 @@ interface PublicationProps {
   publication: LocalTrackPublication | RemoteTrackPublication;
   participant: Participant;
   isLocal: boolean;
-  disableAudio?: boolean;
+  videoOnly?: boolean;
   videoPriority?: Track.Priority | null;
 }
 
-export default function Publication({ publication, isLocal, disableAudio, videoPriority }: PublicationProps) {
+export default function Publication({ publication, isLocal, videoOnly, videoPriority }: PublicationProps) {
   const track = useTrack(publication);
 
   if (!track) return null;
@@ -35,7 +35,7 @@ export default function Publication({ publication, isLocal, disableAudio, videoP
         />
       );
     case 'audio':
-      return disableAudio ? null : <AudioTrack track={track as IAudioTrack} />;
+      return videoOnly ? null : <AudioTrack track={track as IAudioTrack} />;
     default:
       return null;
   }
