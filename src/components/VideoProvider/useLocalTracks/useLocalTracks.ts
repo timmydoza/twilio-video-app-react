@@ -48,10 +48,7 @@ export default function useLocalTracks() {
   useEffect(() => {
     setIsAcquiringLocalTracks(true);
     Video.createLocalTracks({
-      video: {
-        ...(DEFAULT_VIDEO_CONSTRAINTS as {}),
-        name: `camera-${Date.now()}`,
-      },
+      video: false,
       audio: true,
     })
       .then(tracks => {
