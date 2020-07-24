@@ -52,12 +52,9 @@ export default function useLocalTracks() {
       audio: true,
     })
       .then(tracks => {
-        const videoTrack = tracks.find(track => track.kind === 'video');
-        const audioTrack = tracks.find(track => track.kind === 'audio');
-        if (videoTrack) {
-          setVideoTrack(videoTrack as LocalVideoTrack);
-        }
+        const audioTrack = tracks.find(track => track.kind === 'audio') as LocalAudioTrack;
         if (audioTrack) {
+          audioTrack.disable();
           setAudioTrack(audioTrack as LocalAudioTrack);
         }
       })
