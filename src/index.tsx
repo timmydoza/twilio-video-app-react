@@ -15,6 +15,7 @@ import theme from './theme';
 import './types';
 import { VideoProvider } from './components/VideoProvider';
 import UnsupportedBrowserWarning from './components/UnsupportedBrowserWarning/UnsupportedBrowserWarning';
+import { SnackbarProvider } from 'notistack';
 
 const VideoApp = () => {
   const { error, setError, settings } = useAppState();
@@ -22,10 +23,21 @@ const VideoApp = () => {
 
   return (
     <UnsupportedBrowserWarning>
-      <VideoProvider options={connectionOptions} onError={setError}>
-        <ErrorDialog dismissError={() => setError(null)} error={error} />
-        <App />
-      </VideoProvider>
+      <SnackbarProvider
+        maxSnack={12}
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'right',
+        }}
+        dense
+        autoHideDuration={8000}
+        variant="info"
+      >
+        <VideoProvider options={connectionOptions} onError={setError}>
+          <ErrorDialog dismissError={() => setError(null)} error={error} />
+          <App />
+        </VideoProvider>
+      </SnackbarProvider>
     </UnsupportedBrowserWarning>
   );
 };

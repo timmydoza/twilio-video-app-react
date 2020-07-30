@@ -9,6 +9,7 @@ import ToggleScreenShareButton from './ToogleScreenShareButton/ToggleScreenShare
 
 import useIsUserActive from './useIsUserActive/useIsUserActive';
 import useRoomState from '../../hooks/useRoomState/useRoomState';
+import SnackChatButton from './SnackChatButton/SnackChatButton';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -49,6 +50,7 @@ export default function Controls() {
       <ToggleVideoButton disabled={isReconnecting} />
       {roomState !== 'disconnected' && (
         <>
+          <SnackChatButton />
           <ToggleScreenShareButton disabled={isReconnecting} />
           <EndCallButton />
         </>
