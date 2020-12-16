@@ -1,5 +1,5 @@
 import { DEFAULT_VIDEO_CONSTRAINTS, SELECTED_AUDIO_INPUT_KEY, SELECTED_VIDEO_INPUT_KEY } from '../../../constants';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import Video, { LocalVideoTrack, LocalAudioTrack, CreateLocalTrackOptions } from 'twilio-video';
 import { useAudioInputDevices, useVideoInputDevices } from '../../../hooks/deviceHooks/deviceHooks';
 
@@ -13,6 +13,23 @@ export default function useLocalTracks() {
 
   const hasAudio = localAudioDevices.length > 0;
   const hasVideo = localVideoDevices.length > 0;
+
+  const trackRef = useRef({ audioTrack, videoTrack });
+
+  useEffect(() => {
+    trackRef.current = {
+      audioTrack,
+      videoTrack,
+    };
+  }, [audioTrack, videoTrack]);
+
+  useEffect(() => {
+    return () => {
+      const { audioTrack, videoTrack } = trackRef.current;
+      audioTrack?.stop();
+      videoTrack?.stop();
+    };
+  }, []);
 
   const getLocalAudioTrack = useCallback((deviceId?: string) => {
     const options: CreateLocalTrackOptions = {};

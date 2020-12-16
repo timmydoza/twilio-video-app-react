@@ -11,6 +11,7 @@ export default function useRoom(localTracks: LocalTrack[], onError: Callback, op
   const [room, setRoom] = useState<Room>(new EventEmitter() as Room);
   const [isConnecting, setIsConnecting] = useState(false);
   const optionsRef = useRef(options);
+  const connectRef = useRef<Promise<any>>();
 
   useEffect(() => {
     // This allows the connect function to always access the most recent version of the options object. This allows us to
@@ -18,10 +19,17 @@ export default function useRoom(localTracks: LocalTrack[], onError: Callback, op
     optionsRef.current = options;
   }, [options]);
 
+  useEffect(() => {
+    return () => {
+      // @ts-ignore - cancel does exist here
+      connectRef.current?.cancel();
+    };
+  }, []);
+
   const connect = useCallback(
     token => {
       setIsConnecting(true);
-      return Video.connect(token, { ...optionsRef.current, tracks: localTracks }).then(
+      return (connectRef.current = Video.connect(token, { ...optionsRef.current, tracks: localTracks }).then(
         newRoom => {
           setRoom(newRoom);
           const disconnect = () => newRoom.disconnect();
@@ -64,7 +72,7 @@ export default function useRoom(localTracks: LocalTrack[], onError: Callback, op
           onError(error);
           setIsConnecting(false);
         }
-      );
+      ));
     },
     [localTracks, onError]
   );
